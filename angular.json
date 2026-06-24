@@ -41,7 +41,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "bo",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
