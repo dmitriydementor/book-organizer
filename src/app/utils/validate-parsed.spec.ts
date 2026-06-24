@@ -1,19 +1,17 @@
 import { validatePropNames, findArrayInNestedObject, isArrayWithObjectType } from './validate-parsed';
 
 describe('Validate parsed books object', () => {
-
   const arrayWithObjectType = {
-    0: { "title": "Murder on the Orient Express", "author": "Agatha Christie", "pages": 256 },
-    1: { "title": "And Then There Were None", "author": "Agatha Christie", "pages": 272 },
-    2: { "title": "Death on the Nile", "author": "Agatha Christie", "pages": 333 },
+    0: { title: 'Murder on the Orient Express', author: 'Agatha Christie', pages: 256 },
+    1: { title: 'And Then There Were None', author: 'Agatha Christie', pages: 272 },
+    2: { title: 'Death on the Nile', author: 'Agatha Christie', pages: 333 },
   };
 
   const notAnArrayWithObjectType = {
-    0: { "title": "Murder on the Orient Express", "author": "Agatha Christie", "pages": 256 },
-    '22': { "title": "And Then There Were None", "author": "Agatha Christie", "pages": 272 },
-    2: { "title": "Death on the Nile", "author": "Agatha Christie", "pages": 333 },
+    0: { title: 'Murder on the Orient Express', author: 'Agatha Christie', pages: 256 },
+    '22': { title: 'And Then There Were None', author: 'Agatha Christie', pages: 272 },
+    2: { title: 'Death on the Nile', author: 'Agatha Christie', pages: 333 },
   };
-
 
   it('should check if object can be array and return true', () => {
     expect(isArrayWithObjectType(arrayWithObjectType)).toBe(true);
@@ -27,14 +25,13 @@ describe('Validate parsed books object', () => {
     expect(isArrayWithObjectType({})).toBe(false);
   });
 
-
-  const validObjWithPropNames = { "title": "Murder on the Orient Express", "author": "Agatha Christie", "pages": 256 };
+  const validObjWithPropNames = { title: 'Murder on the Orient Express', author: 'Agatha Christie', pages: 256 };
 
   it('should validate if all prop names are present in valid object, returns true', () => {
     expect(validatePropNames(validObjWithPropNames, ['title', 'author', 'pages'])).toBe(true);
   });
 
-  const invalidObjWithPropNames = { "title1": "Murder on the Orient Express", "author": "Agatha Christie", "pages": 256 };
+  const invalidObjWithPropNames = { title1: 'Murder on the Orient Express', author: 'Agatha Christie', pages: 256 };
 
   it('should validate if all prop names are present in invalid object, returns false', () => {
     expect(validatePropNames(invalidObjWithPropNames, ['title', 'author', 'pages'])).toBe(false);
@@ -45,20 +42,19 @@ describe('Validate parsed books object', () => {
   });
 
   it('should validate if all prop names are present in invalid object, returns false', () => {
-    expect(validatePropNames({ }, ['title', 'author', 'pages'])).toBe(false);
+    expect(validatePropNames({}, ['title', 'author', 'pages'])).toBe(false);
   });
 
-
   const nestedObjectwithAnArray = {
-    'someProp': {
-      'NestedProperty': {
+    someProp: {
+      NestedProperty: {
         a: 1,
-        'AnotherNestedProp': {
-          'title': 'aaa',
-          'thisIsArraytoBeFound': [{ result: 'ok' }]
-        }
-      }
-    }
+        AnotherNestedProp: {
+          title: 'aaa',
+          thisIsArraytoBeFound: [{ result: 'ok' }],
+        },
+      },
+    },
   };
 
   it('should return the array with specified object prop names from nested structure', () => {
@@ -66,11 +62,6 @@ describe('Validate parsed books object', () => {
   });
 
   it('should return null from nested structure if no array was found', () => {
-    expect(findArrayInNestedObject({ 'noArray': { 'nestedProp': []}}, ['result'])?.length).toBe(0);
+    expect(findArrayInNestedObject({ noArray: { nestedProp: [] } }, ['result'])?.length).toBe(0);
   });
-
-
-
-
-
 });

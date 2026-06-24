@@ -1,0 +1,13 @@
+<span (click)="fileInput.click()">
+  <ng-content></ng-content>
+</span>
+
+
+<!-- Hidden Native Input -->
+<input
+  type="file"
+  #fileInput
+  (change)="onFileSelected($event.target.files)"
+  style="display: none"
+  accept=".xml"
+/>

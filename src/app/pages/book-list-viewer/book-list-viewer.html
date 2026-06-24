@@ -1,0 +1,17 @@
+
+<mat-toolbar>
+  <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Book organizer</span>
+  <span class="spacer"></span>
+  <bo-file-selector (fileSelected)="onFileSelected($event)">
+    <button matIconButton class="example-icon favorite-icon" aria-label="Upload xml file" matTooltip="Upload XML file">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+  </bo-file-selector>
+</mat-toolbar>
+
+<pre>
+  {{ books() | json }}
+</pre>
