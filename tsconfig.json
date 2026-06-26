@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "ES2023",
+    "target": "ES2022",
+    "lib": ["DOM", "ES2023"],
     "module": "preserve",
 
     "baseUrl": ".",

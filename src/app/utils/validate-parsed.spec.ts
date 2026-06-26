@@ -64,4 +64,10 @@ describe('Validate parsed books object', () => {
   it('should return null from nested structure if no array was found', () => {
     expect(findArrayInNestedObject({ noArray: { nestedProp: [] } }, ['result'])?.length).toBe(0);
   });
+
+  const singleBookInCollection = { root: { books: { title: 'Murder on the Orient Express', author: 'Agatha Christie', pages: 256 } }};
+
+    it('should find single element in valid object', () => {
+    expect(findArrayInNestedObject(singleBookInCollection, ['title', 'pages', 'author'])?.length).toBe(1);
+  });
 });

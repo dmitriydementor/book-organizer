@@ -13,8 +13,14 @@ export const findArrayInNestedObject = (obj: any, propNames: string[]): any[] | 
     return obj as any[];
   }
 
+  // handle object with array-like property names (0, 1, 2, 3...)
   if (isArrayWithObjectType(obj) && Object.values(obj).every(el => validatePropNames(el, propNames))) {
     return obj as any[];
+  }
+
+  // handle signle item in collection
+  if (validatePropNames(obj, propNames)) {
+    return [obj] as any[];
   }
 
   const objProps = Object.keys(obj);

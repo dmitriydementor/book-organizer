@@ -3,15 +3,16 @@ import { Book } from './book.model';
 import { computed } from '@angular/core';
 
 import { computeBookSortString } from '@utils/compute-book-sort-string';
+import { SortDirection } from '@angular/material/sort';
 
 interface BookListState {
   books: Book[];
-  filter: { query: string; order: 'asc' | 'desc' };
+  filter: { query: string; order: SortDirection };
 }
 
 const initialState: BookListState = {
   books: [],
-  filter: { query: '', order: 'asc' },
+  filter: { query: '', order: '' },
 };
 
 export const BookListStore = signalStore(
@@ -19,15 +20,19 @@ export const BookListStore = signalStore(
   withState(initialState),
   withComputed(({ books, filter }) => ({
     booksCount: computed(() => books().length),
-    sortedBooks: () => {
+    sortedBooks: computed(() => {
+      const filteredBooks = [...books()].filter((b) => b.title.toLowerCase().includes(filter.query().toLowerCase()));
+      if (filter.order() === '') {
+        return filteredBooks;
+      }
       const direction = filter.order() === 'asc' ? 1 : -1;
 
-      return computed(() => {
-        return books().sort((a, b) => {
-          return direction * computeBookSortString(a).localeCompare(computeBookSortString(b));
-        });
+      const sortedBooks = filteredBooks.sort((a, b) => {
+        return direction * computeBookSortString(a).localeCompare(computeBookSortString(b));
       });
-    },
+
+      return sortedBooks;
+    }),
   })),
   withMethods(store => ({
     booksLoaded(books: Book[]): void {
@@ -37,7 +42,7 @@ export const BookListStore = signalStore(
     },
     addBook(book: Book): void {
       patchState(store, state => ({
-        books: [...state.books, book],
+        books: [...state.books, { ...book, id: store.booksCount()  }],
       }));
     },
     editBook(book: Book): void {
@@ -60,7 +65,7 @@ export const BookListStore = signalStore(
         filter: { ...state.filter, query },
       }));
     },
-    updateOrder(order: 'asc' | 'desc'): void {
+    updateOrder(order: SortDirection): void {
       patchState(store, state => ({
         filter: { ...state.filter, order },
       }));
